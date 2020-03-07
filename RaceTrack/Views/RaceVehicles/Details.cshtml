@@ -1,0 +1,48 @@
+﻿@model RaceTrack.Models.RaceVehicle
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>RaceVehicle</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vehicle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vehicle.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Race)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Race.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HasTowStrap)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HasTowStrap)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AcceptableTireWear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AcceptableTireWear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AcceptableLift)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AcceptableLift)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

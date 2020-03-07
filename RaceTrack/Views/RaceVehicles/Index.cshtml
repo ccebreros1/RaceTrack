@@ -1,0 +1,30 @@
+﻿@model IEnumerable<RaceTrack.Models.RaceVehicle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div id="raceTable">
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        refreshTable();
+    });
+
+    function refreshTable() {
+        $('#raceTable').load('/RaceVehicles/GetTable', function () {
+            // every 30 seconds we re-load the table to check for new entries even without refresh 
+            setTimeout(refreshTable, 30000);
+        });
+    }
+</script>
+
+

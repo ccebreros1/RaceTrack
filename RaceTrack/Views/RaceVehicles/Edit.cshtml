@@ -1,0 +1,100 @@
+﻿@model RaceTrack.Models.RaceVehicle
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>RaceVehicle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="RaceId" class="control-label"></label>
+                <select asp-for="RaceId" class="form-control" asp-items="ViewBag.RaceId"></select>
+                <span asp-validation-for="RaceId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleId" class="control-label"></label>
+                <select asp-for="VehicleId" class="form-control" asp-items="ViewBag.VehicleId"></select>
+                <span asp-validation-for="VehicleId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check" id="hasToSwapGroup">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasTowStrap" /> @Html.DisplayNameFor(model => model.HasTowStrap)
+                </label>
+            </div>
+            <div class="form-group form-check" id="acceptableTireWearId">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AcceptableTireWear" /> @Html.DisplayNameFor(model => model.AcceptableTireWear)
+                </label>
+            </div>
+            <div class="form-group form-check" id="acceptableLiftId">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AcceptableLift" /> @Html.DisplayNameFor(model => model.AcceptableLift)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#RaceId").change(function () {
+            refreshTable();
+        });
+        $("#raceTable").hide();
+    });
+    //$("#RaceId").change(refreshTable());
+    function refreshTable() {
+        $("#raceTable").show();
+        var selectedRace = $("#RaceId option:selected").val();
+        $.ajax({
+            type: 'GET',
+            url: '/RaceVehicles/GetTable/',
+            data: {
+                RaceId: selectedRace
+            },
+            success: function (data) {
+                loadTable(data);
+            }
+        });
+    };
+
+    function loadTable(data) {
+        $('#raceTable')[0].innerHTML = data;
+        setTimeout(refreshTable, 30000);
+    }
+
+    $("#VehicleTypeId").change(function () {
+        var selectedVehicleType = $("#VehicleTypeId option:selected").text();
+        if (selectedVehicleType == 'Truck') {
+            $('#acceptableLiftId').show();
+            $('#acceptableTireWearId').hide();
+        }
+        else if (selectedVehicleType == 'Car') {
+            $('#acceptableTireWearId').show();
+            $('#acceptableLiftId').hide();
+        }
+        else {
+            $('#acceptableTireWearId').hide();
+            $('#acceptableLiftId').hide();
+        }
+    });
+
+</script>
