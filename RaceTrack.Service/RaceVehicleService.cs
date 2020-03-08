@@ -6,5 +6,6 @@ namespace RaceTrack.Service
 {
     public class RaceVehicleService
     {
+        public RaceVehicleService(RaceTrackContext)
     }
 }

@@ -7,22 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RaceTrack.Data;
 using RaceTrack.Models;
+using RaceTrack.Service;
 
 namespace RaceTrack.Controllers
 {
     public class VehicleTypesController : Controller
     {
         private readonly RaceTrackContext _context;
+        private readonly VehicleTypeService _service;
 
         public VehicleTypesController(RaceTrackContext context)
         {
             _context = context;
+            _service = new VehicleTypeService(_context);
         }
 
         // GET: VehicleTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.VehicleTypes.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: VehicleTypes/Details/5
@@ -33,8 +36,7 @@ namespace RaceTrack.Controllers
                 return NotFound();
             }
 
-            var vehicleType = await _context.VehicleTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicleType = await _service.GetByIdAsync(id);
             if (vehicleType == null)
             {
                 return NotFound();
@@ -58,8 +60,7 @@ namespace RaceTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vehicleType);
-                await _context.SaveChangesAsync();
+                await _service.AddAsync(vehicleType);
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicleType);
@@ -73,7 +74,7 @@ namespace RaceTrack.Controllers
                 return NotFound();
             }
 
-            var vehicleType = await _context.VehicleTypes.FindAsync(id);
+            var vehicleType = await _service.GetByIdAsync(id);
             if (vehicleType == null)
             {
                 return NotFound();
@@ -97,8 +98,7 @@ namespace RaceTrack.Controllers
             {
                 try
                 {
-                    _context.Update(vehicleType);
-                    await _context.SaveChangesAsync();
+                    await _service.UpdateAsync(vehicleType);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +124,7 @@ namespace RaceTrack.Controllers
                 return NotFound();
             }
 
-            var vehicleType = await _context.VehicleTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var vehicleType = await _service.GetByIdAsync(id);
             if (vehicleType == null)
             {
                 return NotFound();
@@ -139,9 +138,7 @@ namespace RaceTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vehicleType = await _context.VehicleTypes.FindAsync(id);
-            _context.VehicleTypes.Remove(vehicleType);
-            await _context.SaveChangesAsync();
+            await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 

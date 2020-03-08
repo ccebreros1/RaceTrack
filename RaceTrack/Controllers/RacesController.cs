@@ -7,23 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RaceTrack.Data;
 using RaceTrack.Models;
+using RaceTrack.Service;
 
 namespace RaceTrack.Controllers
 {
     public class RacesController : Controller
     {
         private readonly RaceTrackContext _context;
+        private readonly RaceService _service;
 
         public RacesController(RaceTrackContext context)
         {
             _context = context;
+            _service = new RaceService(_context);
         }
 
         // GET: Races
         public async Task<IActionResult> Index()
         {
-            var raceTrackContext = _context.Races.Include(r => r.RaceTrack);
-            return View(await raceTrackContext.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Races/Details/5
@@ -34,9 +36,7 @@ namespace RaceTrack.Controllers
                 return NotFound();
             }
 
-            var race = await _context.Races
-                .Include(r => r.RaceTrack)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var race = await _service.GetByIdAsync(id);
             if (race == null)
             {
                 return NotFound();
@@ -61,8 +61,7 @@ namespace RaceTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(race);
-                await _context.SaveChangesAsync();
+                await _service.AddAsync(race);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RaceTrackId"] = new SelectList(_context.RaceTracksInfo, "Id", "Name", race.RaceTrackId);
@@ -77,7 +76,7 @@ namespace RaceTrack.Controllers
                 return NotFound();
             }
 
-            var race = await _context.Races.FindAsync(id);
+            var race = await _service.GetByIdAsync(id);
             if (race == null)
             {
                 return NotFound();
@@ -102,8 +101,7 @@ namespace RaceTrack.Controllers
             {
                 try
                 {
-                    _context.Update(race);
-                    await _context.SaveChangesAsync();
+                    await _service.UpdateAsync(race);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -130,9 +128,7 @@ namespace RaceTrack.Controllers
                 return NotFound();
             }
 
-            var race = await _context.Races
-                .Include(r => r.RaceTrack)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var race = await _service.GetByIdAsync(id);
             if (race == null)
             {
                 return NotFound();
@@ -146,9 +142,7 @@ namespace RaceTrack.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var race = await _context.Races.FindAsync(id);
-            _context.Races.Remove(race);
-            await _context.SaveChangesAsync();
+            await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 

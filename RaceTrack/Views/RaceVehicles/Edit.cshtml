@@ -13,6 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="VehicleType" />
             <div class="form-group">
                 <label asp-for="RaceId" class="control-label"></label>
                 <select asp-for="RaceId" class="form-control" asp-items="ViewBag.RaceId"></select>
@@ -55,14 +56,16 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#RaceId").change(function () {
+        var vehicleType = $('#VehicleType').val();
+        DisplayInspectionFields(vehicleType);
+        $('#RaceId').change(function () {
             refreshTable();
         });
-        $("#raceTable").hide();
+        $('#raceTable').hide();
     });
     //$("#RaceId").change(refreshTable());
     function refreshTable() {
-        $("#raceTable").show();
+        $('#raceTable').show();
         var selectedRace = $("#RaceId option:selected").val();
         $.ajax({
             type: 'GET',
@@ -81,20 +84,36 @@
         setTimeout(refreshTable, 30000);
     }
 
-    $("#VehicleTypeId").change(function () {
-        var selectedVehicleType = $("#VehicleTypeId option:selected").text();
-        if (selectedVehicleType == 'Truck') {
+    $('#VehicleId').change(function () {
+        var selectedVehicle = $('#VehicleId option:selected').val();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Vehicles/GetVehicleType/',
+            data: {
+                VehicleId: selectedVehicle
+            },
+            success: function (data) {
+                DisplayInspectionFields(data);
+            }
+        });
+    });
+
+    function DisplayInspectionFields(vehicleType) {
+        $('#hasTowStrapId').show();
+        if (vehicleType == 'Truck') {
             $('#acceptableLiftId').show();
             $('#acceptableTireWearId').hide();
         }
-        else if (selectedVehicleType == 'Car') {
+        else if (vehicleType == 'Car') {
             $('#acceptableTireWearId').show();
             $('#acceptableLiftId').hide();
         }
         else {
             $('#acceptableTireWearId').hide();
             $('#acceptableLiftId').hide();
+            $('#hasTowStrapId').hide();
         }
-    });
+    }
 
 </script>
