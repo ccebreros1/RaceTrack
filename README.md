@@ -32,3 +32,5 @@ Will add sorting of dropdowns alphabetically, as well as grids sorted more logic
 A SQL script with required data is also on the road map, for lookups to be there.
 
 Instead of setting time intervals for the partial views to be retrieved, some SignalR could be a good idea so that we don't over saturate the server with db calls every x amount of time.
+
+I am planning to build a Blazor version of this same app to test out this new technology.
