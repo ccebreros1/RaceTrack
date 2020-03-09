@@ -2,12 +2,17 @@
 using RaceTrack.Data;
 using RaceTrack.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RaceTrack.Service
 {
+    /// <summary>
+    /// this is the main service for the race track module
+    /// </summary>
+    /// <remarks>
+    /// Thew service serves as a business logic layer for the application. Business rules, and db operations are handled here.
+    /// </remarks>
     public class RaceTrackInfoService
     {
         private readonly RaceTrackContext _context;
@@ -16,11 +21,24 @@ namespace RaceTrack.Service
             _context = context;
         }
 
+        /// <summary>
+        /// Gets all of the Race Tracks from the database
+        /// </summary>
+        /// <returns>
+        /// A list of Race Tracks
+        /// </returns>
         public async Task<IEnumerable<RaceTrackInfo>> GetAllAsync()
         {
             return await _context.RaceTracksInfo.ToListAsync();
         }
 
+        /// <summary>
+        /// Gets a Race Track by Id
+        /// </summary>
+        /// <returns>
+        /// A specific Race Track
+        /// </returns>
+        /// <param name="raceTrackInfoId">The Id of the Race Track we want to find</param>
         public async Task<RaceTrackInfo> GetByIdAsync(int? raceTrackInfoId)
         {
             var raceTrackInfo = await _context.RaceTracksInfo
@@ -28,6 +46,10 @@ namespace RaceTrack.Service
             return raceTrackInfo;
         }
 
+        /// <summary>
+        /// Adds the record to the database
+        /// </summary>
+        /// <param name="raceTrackInfo">A Race Track model</param>
         public async Task AddAsync(RaceTrackInfo raceTrackInfo)
         {
             try
@@ -42,6 +64,10 @@ namespace RaceTrack.Service
             }            
         }
 
+        /// <summary>
+        /// Updates a record from the database
+        /// </summary>
+        /// <param name="raceTrackInfo">A Race Track model to be modified</param>
         public async Task UpdateAsync(RaceTrackInfo raceTrackInfo)
         {
             try
@@ -57,6 +83,10 @@ namespace RaceTrack.Service
             }
         }
 
+        /// <summary>
+        /// Deletes a record from the database
+        /// </summary>
+        /// <param name="raceTrackInfoId">The Id of the Race Track to be deleted</param>
         public async Task DeleteAsync(int raceTrackInfoId)
         {
             try

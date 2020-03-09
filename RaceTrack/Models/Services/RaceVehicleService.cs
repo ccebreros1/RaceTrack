@@ -4,11 +4,16 @@ using RaceTrack.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RaceTrack.Service
 {
+    /// <summary>
+    /// this is the main service for the race vehicle module
+    /// </summary>
+    /// <remarks>
+    /// Thew service serves as a business logic layer for the application. Business rules, and db operations are handled here.
+    /// </remarks>
     public class RaceVehicleService
     {
         private readonly RaceTrackContext _context;
@@ -17,12 +22,25 @@ namespace RaceTrack.Service
             _context = context;
         }
 
+        /// <summary>
+        /// Gets all of the Race Vehicles from the database
+        /// </summary>
+        /// <returns>
+        /// A list of Race Vehicles
+        /// </returns>
         public async Task<IEnumerable<RaceVehicle>> GetAllAsync()
         {
             var raceTrackContext = _context.RaceVehicles.Include(r => r.Race).Include(r => r.Vehicle);
             return await raceTrackContext.ToListAsync();
         }
 
+        /// <summary>
+        /// Gets a Race Vehicle by Id
+        /// </summary>
+        /// <returns>
+        /// A specific Race Vehicle
+        /// </returns>
+        /// <param name="raceVehicleId">The Id of the Race Vehicle we want to find</param>
         public async Task<RaceVehicle> GetByIdAsync(int? raceVehicleId)
         {
             var raceVehicle = await _context.RaceVehicles
@@ -33,6 +51,11 @@ namespace RaceTrack.Service
             return raceVehicle;
         }
 
+
+        /// <summary>
+        /// Adds the record to the database
+        /// </summary>
+        /// <param name="raceVehicle">A Race Vehicle model</param>
         public async Task AddAsync(RaceVehicle raceVehicle)
         {
             try
@@ -48,6 +71,10 @@ namespace RaceTrack.Service
             }
         }
 
+        /// <summary>
+        /// Updates a record from the database
+        /// </summary>
+        /// <param name="raceVehicle">A Race Vehicle model to be modified</param>
         public async Task UpdateAsync(RaceVehicle raceVehicle)
         {
             try
@@ -64,6 +91,10 @@ namespace RaceTrack.Service
             }
         }
 
+        /// <summary>
+        /// Deletes a record from the database
+        /// </summary>
+        /// <param name="raceVehicleId">The Id of the Race Vehicle to be deleted</param>
         public async Task DeleteAsync(int raceVehicleId)
         {
             try
@@ -79,6 +110,12 @@ namespace RaceTrack.Service
             }
         }
 
+        /// <summary>
+        /// Processes custom business rules for adding a vehicle to a race
+        /// </summary>
+        /// <exception cref="Exception ex">Custom exception message that is used for validation feedback</exception>
+        /// <param name="raceVehicle">The model of the record being handled</param>
+        /// <param name="action">The action being made on the record to decide what to validate</param>
         internal async Task ValidateVehicle(RaceVehicle raceVehicle, string action = "add")
         {
             if(action == "add")

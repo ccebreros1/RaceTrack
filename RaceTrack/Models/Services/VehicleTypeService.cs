@@ -3,11 +3,16 @@ using RaceTrack.Data;
 using RaceTrack.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RaceTrack.Service
 {
+    /// <summary>
+    /// this is the main service for the vehicle type module
+    /// </summary>
+    /// <remarks>
+    /// Thew service serves as a business logic layer for the application. Business rules, and db operations are handled here.
+    /// </remarks>
     public class VehicleTypeService
     {
         private readonly RaceTrackContext _context;
@@ -16,17 +21,34 @@ namespace RaceTrack.Service
             _context = context;
         }
 
+        /// <summary>
+        /// Gets all of the vehicle types from the database
+        /// </summary>
+        /// <returns>
+        /// A list of vehicle types
+        /// </returns>
         public async Task<IEnumerable<VehicleType>> GetAllAsync()
         {
             return await _context.VehicleTypes.ToListAsync();
         }
 
+        /// <summary>
+        /// Gets a Vehicle Type by Id
+        /// </summary>
+        /// <returns>
+        /// A specific Vehicle Type
+        /// </returns>
+        /// <param name="vehicleTypeId">The Id of the vehicle type we want to find</param>
         public async Task<VehicleType> GetByIdAsync(int? vehicleTypeId)
         {
             return await _context.VehicleTypes
                 .FirstOrDefaultAsync(m => m.Id == vehicleTypeId);
         }
 
+        /// <summary>
+        /// Adds the record to the database
+        /// </summary>
+        /// <param name="vehicleType">A Vehicle Type model</param>
         public async Task AddAsync(VehicleType vehicleType)
         {
             try
@@ -41,6 +63,10 @@ namespace RaceTrack.Service
             }
         }
 
+        /// <summary>
+        /// Updates a record from the database
+        /// </summary>
+        /// <param name="vehicleType">A Vehicle Type model to be modified</param>
         public async Task UpdateAsync(VehicleType vehicleType)
         {
             try
@@ -56,6 +82,10 @@ namespace RaceTrack.Service
             }
         }
 
+        /// <summary>
+        /// Deletes a record from the database
+        /// </summary>
+        /// <param name="vehicleTypeId">The Id of the vehicle type to be deleted</param>
         public async Task DeleteAsync(int vehicleTypeId)
         {
             try
