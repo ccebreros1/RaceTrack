@@ -11,8 +11,15 @@ namespace RaceTrack.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set;}
+
+        [Required]
         public DateTime Date { get; set; }
+
+        [Display(Name = "Race Track")]
+        [Required]
         public int RaceTrackId { get; set; }
 
         public RaceTrackInfo RaceTrack { get; set; }

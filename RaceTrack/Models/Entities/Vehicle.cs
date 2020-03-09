@@ -11,10 +11,22 @@ namespace RaceTrack.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
+        [Required]
         public string Make { get; set; }
+
+        [Required]
         public string Model { get; set; }
+
+        [Display(Name = "Owner")]
+        [Required]
         public string OwnerName { get; set; }
+
+        [Display(Name = "Vehicle Alias")]
         public string VehicleAlias { get; set; }
+
+        [Display(Name = "Vehicle Type")]
+        [Required]
         public int VehicleTypeId { get; set; }
 
         public virtual ICollection<RaceVehicle> RaceVehicles { get; set; }

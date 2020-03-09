@@ -32,7 +32,7 @@ namespace RaceTrack.Service
         {
             try
             {
-                _context.Add(raceTrackInfo);
+                await _context.AddAsync(raceTrackInfo);
                 await _context.SaveChangesAsync();
             }
             catch(Exception ex)
@@ -46,7 +46,8 @@ namespace RaceTrack.Service
         {
             try
             {
-                _context.Update(raceTrackInfo);
+                var e = _context.Update(raceTrackInfo);
+                e.State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

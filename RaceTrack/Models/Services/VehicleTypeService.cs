@@ -31,7 +31,7 @@ namespace RaceTrack.Service
         {
             try
             {
-                await _context.AddAsync(vehicleType, new System.Threading.CancellationToken());
+                await _context.AddAsync(vehicleType);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -45,7 +45,8 @@ namespace RaceTrack.Service
         {
             try
             {
-                _context.Update(vehicleType);
+                var e = _context.Update(vehicleType);
+                e.State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

@@ -57,7 +57,7 @@ namespace RaceTrack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Make,Model,VehicleTypeId,VehicleAlias,OwnerName")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("Make,Model,VehicleTypeId,VehicleAlias,OwnerName")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {

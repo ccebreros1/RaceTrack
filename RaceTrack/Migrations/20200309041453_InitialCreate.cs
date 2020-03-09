@@ -13,7 +13,7 @@ namespace RaceTrack.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,8 +24,9 @@ namespace RaceTrack.Migrations
                 name: "VehicleType",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +39,7 @@ namespace RaceTrack.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     RaceTrackId = table.Column<int>(nullable: false)
                 },
@@ -57,12 +58,12 @@ namespace RaceTrack.Migrations
                 name: "Vehicle",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
-                    Make = table.Column<string>(nullable: true),
-                    Model = table.Column<string>(nullable: true),
-                    HasTowStrap = table.Column<bool>(nullable: false),
-                    AcceptableTireWear = table.Column<bool>(nullable: false),
-                    AcceptableLift = table.Column<bool>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Make = table.Column<string>(nullable: false),
+                    Model = table.Column<string>(nullable: false),
+                    OwnerName = table.Column<string>(nullable: false),
+                    VehicleAlias = table.Column<string>(nullable: true),
                     VehicleTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -83,7 +84,10 @@ namespace RaceTrack.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RaceId = table.Column<int>(nullable: false),
-                    VehicleId = table.Column<int>(nullable: false)
+                    VehicleId = table.Column<int>(nullable: false),
+                    HasTowStrap = table.Column<bool>(nullable: false),
+                    AcceptableTireWear = table.Column<bool>(nullable: false),
+                    AcceptableLift = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

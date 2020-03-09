@@ -10,6 +10,8 @@ namespace RaceTrack.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         public virtual ICollection<Race> Races { get; set; }

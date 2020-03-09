@@ -38,7 +38,7 @@ namespace RaceTrack.Service
             try
             {
                 await ValidateVehicle(raceVehicle);
-                _context.Add(raceVehicle);
+                await _context.AddAsync(raceVehicle);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -52,8 +52,9 @@ namespace RaceTrack.Service
         {
             try
             {
-                await ValidateVehicle(raceVehicle);
-                _context.Update(raceVehicle);
+                await ValidateVehicle(raceVehicle, "update");
+                var e = _context.Update(raceVehicle);
+                e.State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -78,16 +79,19 @@ namespace RaceTrack.Service
             }
         }
 
-        internal async Task ValidateVehicle(RaceVehicle raceVehicle)
+        internal async Task ValidateVehicle(RaceVehicle raceVehicle, string action = "add")
         {
-            // Check if car is not already in race
-            var duplicateRecord = await _context.RaceVehicles.Where(r => r.VehicleId == raceVehicle.VehicleId && r.RaceId == raceVehicle.RaceId).FirstOrDefaultAsync();
-
-            if (duplicateRecord != null)
+            if(action == "add")
             {
-                throw new Exception("This vehicle is already present on this race");
-            }
+                // Check if car is not already in race
+                var duplicateRecord = await _context.RaceVehicles.Where(r => r.VehicleId == raceVehicle.VehicleId && r.RaceId == raceVehicle.RaceId).FirstOrDefaultAsync();
 
+                if (duplicateRecord != null)
+                {
+                    throw new Exception("This vehicle is already present on this race");
+                }
+            }
+            
             // Get all vehicles currently in the race
             var vehiclesInRace = await _context.RaceVehicles.Where(r => r.RaceId == raceVehicle.RaceId).ToListAsync();
 

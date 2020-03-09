@@ -59,7 +59,7 @@ namespace RaceTrack.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RaceId,VehicleId,HasTowStrap,AcceptableTireWear,AcceptableLift")] RaceVehicle raceVehicle)
+        public async Task<IActionResult> Create([Bind("RaceId,VehicleId,HasTowStrap,AcceptableTireWear,AcceptableLift")] RaceVehicle raceVehicle)
         {
             if (ModelState.IsValid)
             {
@@ -120,7 +120,7 @@ namespace RaceTrack.Controllers
                 {
                     await _service.UpdateAsync(raceVehicle);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
                     if (!RaceVehicleExists(raceVehicle.Id))
                     {
@@ -128,7 +128,10 @@ namespace RaceTrack.Controllers
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError("", ex.Message);
+                        ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name", raceVehicle.RaceId);
+                        ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "VehicleAlias", raceVehicle.VehicleId);
+                        return View(raceVehicle);
                     }
                 }
                 return RedirectToAction(nameof(Index));

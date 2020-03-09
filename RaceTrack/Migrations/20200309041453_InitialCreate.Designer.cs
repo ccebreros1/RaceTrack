@@ -10,7 +10,7 @@ using RaceTrack.Data;
 namespace RaceTrack.Migrations
 {
     [DbContext(typeof(RaceTrackContext))]
-    [Migration("20200307205846_InitialCreate")]
+    [Migration("20200309041453_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,7 @@ namespace RaceTrack.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RaceTrackId")
@@ -52,6 +53,7 @@ namespace RaceTrack.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -65,6 +67,15 @@ namespace RaceTrack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("AcceptableLift")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AcceptableTireWear")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasTowStrap")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RaceId")
                         .HasColumnType("int");
@@ -84,21 +95,23 @@ namespace RaceTrack.Migrations
             modelBuilder.Entity("RaceTrack.Models.Vehicle", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("AcceptableLift")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AcceptableTireWear")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasTowStrap")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Make")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleAlias")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VehicleTypeId")
@@ -114,9 +127,12 @@ namespace RaceTrack.Migrations
             modelBuilder.Entity("RaceTrack.Models.VehicleType", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -17,12 +17,6 @@ namespace RaceTrack.Test
     public class BaseTest
     {
         public RaceTrackContext _context;
-        //public Mock<DbSet<VehicleType>> _vehicleTypeSet;
-        //public Mock<DbSet<RaceTrackInfo>> _raceTrackInfoSet;
-        //public Mock<DbSet<Vehicle>> _vehicleSet;
-        //public Mock<DbSet<Race>> _raceSet;
-        //public Mock<DbSet<RaceVehicle>> _raceVehicleSet;
-       
 
         [SetUp]
         public virtual void Setup()

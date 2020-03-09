@@ -33,7 +33,11 @@ namespace RaceTrack.Service
         {
             try
             {
-                _context.Add(vehicle);
+                if(string.IsNullOrEmpty(vehicle.VehicleAlias))
+                {
+                    vehicle.VehicleAlias = vehicle.OwnerName + "'s " + vehicle.Make + " " + vehicle.Model;
+                }
+                await _context.AddAsync(vehicle);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -47,7 +51,12 @@ namespace RaceTrack.Service
         {
             try
             {
-                _context.Update(vehicle);
+                if (string.IsNullOrEmpty(vehicle.VehicleAlias))
+                {
+                    vehicle.VehicleAlias = vehicle.OwnerName + "'s " + vehicle.Make + " " + vehicle.Model;
+                }
+                var e = _context.Update(vehicle);
+                e.State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
