@@ -63,8 +63,18 @@ namespace RaceTrack.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.AddAsync(raceVehicle);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _service.AddAsync(raceVehicle);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch(Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                    ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name", raceVehicle.RaceId);
+                    ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "VehicleAlias", raceVehicle.VehicleId);
+                    return View(raceVehicle);
+                }
             }
             ViewData["RaceId"] = new SelectList(_context.Races, "Id", "Name", raceVehicle.RaceId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "VehicleAlias", raceVehicle.VehicleId);

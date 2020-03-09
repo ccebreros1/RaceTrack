@@ -8,15 +8,19 @@ namespace RaceTrack.Data
 {
     public class RaceTrackContext : DbContext
     {
+        public RaceTrackContext()
+        {
+        }
+
         public RaceTrackContext(DbContextOptions<RaceTrackContext> options) : base(options)
         {
         }
 
-        public DbSet<RaceTrackInfo> RaceTracksInfo { get; set; }
-        public DbSet<Race> Races { get; set; }
-        public DbSet<RaceVehicle> RaceVehicles { get; set; }
-        public DbSet<Vehicle> Vehicles { get; set; }
-        public DbSet<VehicleType> VehicleTypes { get; set; }
+        public virtual  DbSet<RaceTrackInfo> RaceTracksInfo { get; set; }
+        public virtual  DbSet<Race> Races { get; set; }
+        public virtual  DbSet<RaceVehicle> RaceVehicles { get; set; }
+        public virtual  DbSet<Vehicle> Vehicles { get; set; }
+        public virtual  DbSet<VehicleType> VehicleTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
