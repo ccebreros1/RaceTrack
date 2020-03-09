@@ -24,5 +24,6 @@ The application currently was designed to fulfill the following requirements:
 4. Vehicles must pass an inspection prior to entering the track
 
 **Next steps**
+
 The next iteration of the application will focus on the bugs that are present on update of the Race Vehicles form. It will also include some visual 
 improvements, as well as more unit tests for other test cases.
