@@ -4,7 +4,7 @@ This is a .Net Core 3.1 MVC Race Track Simple Application
 
 # How to use the application
 There are a couple of steps that one needs to follow to add a vehicle to the racetrack. The steps are:
-1. Add vehicle types (Truck and Car)
+1. Add vehicle types (Truck and Car must be added)
 2. Add Race Tracks
 3. Add Races
 4. Add Vehicles
@@ -25,5 +25,8 @@ The application currently was designed to fulfill the following requirements:
 
 **Next steps**
 
-The next iteration of the application will focus on the bugs that are present on update of the Race Vehicles form. It will also include some visual 
-improvements, as well as more unit tests for other test cases.
+The next iteration of the application will focus on the bugs that are present on update of the Race Vehicles form. It will also include some visual improvements, as well as more unit tests for other test cases. Tables will change from static html generated to dynamicly pulled with pagination enabled. JQuery Datatables can be an option. For dropdowns will also be planning to update them from traditional dropdowns to select2 with infinite scrolling and pagination for better data retrieval.
+
+Will add sorting of dropdowns alphabetically, as well as grids sorted more logically.
+
+A SQL script with required data is also on the road map, for lookups to be there.
